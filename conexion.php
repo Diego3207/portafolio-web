@@ -13,6 +13,7 @@ class conexion{
 			return "Falla de conexion".$e;
 		}
 	}
+	#este metodo lo puedo ejecutar para insertar/borrar/actualizar
 	public function ejecutar($sql){
 		$this->conexion->exec($sql);
 		//regresa un id de insercion
