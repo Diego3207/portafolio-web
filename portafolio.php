@@ -46,7 +46,11 @@ if($_POST){
 					<tbody>
 					<?php foreach($proyectos as $proyecto){?>
 					<tr>
-						<td>$proyecto</td>
+						<td><?php echo $proyecto["id"]; ?></td>
+						<td><?php echo $proyecto["nombre"]; ?></td>
+						<td><?php echo $proyecto["imagen"]; ?></td>
+						<td><?php echo $proyecto["descripcion"]; ?></td>
+						<td><a class="btn btn-danger" href="#">Eliminar</a></td>
 					</tr>
 					<?php } ?>
 					</tbody>
