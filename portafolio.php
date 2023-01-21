@@ -15,6 +15,8 @@ if($_POST){
 	$sql="insert into proyectos values(NULL,'$nombre','$imagen','$descripcion');";
 	$objConexion->ejecutar($sql);
 	//print_r($_POST);
+	//redirecciono para que no se ejecute otra insersion
+	header("location:portafolio.php");
 }
 if($_GET){
 	$objConexion=new conexion();
@@ -24,11 +26,17 @@ if($_GET){
 	#buscar si esta si no para que borrarlo
 	#------------------------------------------------
 	$id=$_GET["borrar"];
+	$sqlBuscarImagen="select imagen from proyectos where id=".$id.";";
+	$imagen=$objConexion->consultar($sqlBuscarImagen);
+	//funcion que permite borar el archivo en local desde la ruta asignada
+	unlink("src/".$imagen[0]["imagen"]);
+	
 	$sqlBorrar="delete from `proyectos` where `proyectos`.`id`=".$id;
 	$objConexion->ejecutar($sqlBorrar);
+	header("location:portafolio.php");
 }
-$sql2="SELECT * FROM `proyectos`;";
-$proyectos=$objConexion->extraer($sql2);
+$sqlSelect="SELECT * FROM `proyectos`;";
+$proyectos=$objConexion->consultar($sqlSelect);
 ?>
 <div class="container">
 	<div class="row">
@@ -41,12 +49,16 @@ $proyectos=$objConexion->extraer($sql2);
 					</div>
 					<div class="card-body">
 						<form action="portafolio.php" method="post" enctype="multipart/form-data">
-							Nombre del proyecto: <input class="form-control" type="text" name="nombreProyecto">
+							<!--con el "required" puedo poner que el campo sea obligatorio de llenar 
+							aunque deberiamos poner mas seguridad en el post por medio de php
+							ya que con este metodo lo pueden vulnerar facilmente con insepccionar
+							-->
+							Nombre del proyecto: <input required class="form-control" type="text" name="nombreProyecto">
 							<br>
-							Imagen del proyecto: <input class="form-control" type="file" name="archivo">
+							Imagen del proyecto: <input required class="form-control" type="file" name="archivo">
 							<br>
 							Descripción:
-							<textarea name="descripcion" class="form-control" rows="4"></textarea>
+							<textarea required name="descripcion" class="form-control" rows="4"></textarea>
 							<input class="btn btn-success" type="submit" value"Enviar proyecto">
 							<br>
 						</form>
@@ -69,7 +81,9 @@ $proyectos=$objConexion->extraer($sql2);
 					<tr>
 						<td><?php echo $proyecto["id"]; ?></td>
 						<td><?php echo $proyecto["nombre"]; ?></td>
-						<td><?php echo $proyecto["imagen"]; ?></td>
+						<td>
+							<img width="120" src="src/<?php echo $proyecto["imagen"];?>" alt="">
+						</td>
 						<td><?php echo $proyecto["descripcion"]; ?></td>
 						<td><a class="btn btn-danger" href="?borrar=<?php echo $proyecto["id"]; ?>">Eliminar</a></td>
 					</tr>

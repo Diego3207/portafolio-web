@@ -19,7 +19,7 @@ class conexion{
 		//regresa un id de insercion
 		return $this->conexion->lastInsertId();
 	}
-	public function extraer($sql){
+	public function consultar($sql){
 		$sentencia=$this->conexion->prepare($sql);
 		$sentencia->execute();
 		return $sentencia->fetchAll();
