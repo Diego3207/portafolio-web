@@ -6,9 +6,12 @@ if($_POST){
 	$nombre=$_POST["nombreProyecto"];
 	$descripcion=$_POST["descripcion"];
 	$imagen=$_FILES["archivo"]["name"];
+	$imagenTemporal=$_FILES["archivo"]["tmp_name"];
+	#descarga del archivo
+	move_uploaded_file($imagenTemporal,"src/".$imagen);
 	$sql="insert into proyectos values(NULL,'$nombre','$imagen','$descripcion');";
 	$objConexion->ejecutar($sql);
-	print_r($_POST);
+	//print_r($_POST);
 }
 if($_GET){
 #DELETE FROM proyectos WHERE `proyectos`.`id` = 29
