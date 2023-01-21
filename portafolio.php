@@ -5,7 +5,10 @@ $objConexion=new conexion();
 if($_POST){
 	$nombre=$_POST["nombreProyecto"];
 	$descripcion=$_POST["descripcion"];
-	$imagen=$_FILES["archivo"]["name"];
+
+	$fecha=new DateTime();
+
+	$imagen=$fecha->getTimestamp()."_".$_FILES["archivo"]["name"];
 	$imagenTemporal=$_FILES["archivo"]["tmp_name"];
 	#descarga del archivo
 	move_uploaded_file($imagenTemporal,"src/".$imagen);
@@ -14,7 +17,6 @@ if($_POST){
 	//print_r($_POST);
 }
 if($_GET){
-#DELETE FROM proyectos WHERE `proyectos`.`id` = 29
 	$objConexion=new conexion();
 	#------------------------------------------------
 	#RECOMENDACIONES DE SEGURIDAD
